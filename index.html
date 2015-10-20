@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Flocking Demos</title>
+        <script src="assets/Flocking-0.1.2/dist/flocking-all.js"></script>
+        <script>
+		(function () {
+
+		    // JavaScript strict mode is a good thing.
+		    "use strict";
+
+		    // Define a unique global namespace for your stuff.
+		    // You should change this to a namespace that is appropriate for your project.
+		    fluid.registerNamespace("myStuff");
+
+		    var enviro = flock.init();
+
+		    // Expose any public functions or constructors as properties on your namesapce.
+		    myStuff.play = function () {
+		        var mySynth = flock.synth({
+		            synthDef: {
+		                ugen: "flock.ugen.out",
+						sources: [
+							{
+								ugen: "flock.ugen.sin",
+								freq: 440
+							},
+							{
+								ugen: "flock.ugen.sin",
+								freq: 520
+							}
+						]
+		            }
+		        });
+
+		        // If you're on iOS, you will need to call in a listener for
+		        // some kind of user input action, such a button click or touch handler.
+		        // This is because iOS will only play sound if the user initiated it.
+		        enviro.start();
+		    };
+			
+			myStuff.pause = function() {
+				enviro.stop();
+			}
+
+		}());
+		myStuff.play();
+		
+		</script>
+    </head>
+    <body>
+       <h1>HI</h1>
+	   <button onClick="myStuff.pause();">Pause</button> 
+    </body>
+</html>
