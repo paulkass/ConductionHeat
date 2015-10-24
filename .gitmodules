@@ -10,3 +10,9 @@
 [submodule "Flocking"]
 	path = Flocking
 	url = https://github.com/colinbdclark/Flocking.git
+[submodule "midi-js-soundfonts"]
+	path = midi-js-soundfonts
+	url = https://github.com/gleitz/midi-js-soundfonts.git
+[submodule "timer-stopwatch-1"]
+	path = timer-stopwatch-1
+	url = https://github.com/paulkass/timer-stopwatch-1.git
