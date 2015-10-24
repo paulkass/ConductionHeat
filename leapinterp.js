@@ -33,6 +33,8 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 				var clockwise = false;
 				var pointableID = gesture.pointableIds[0];
 				var direction = frame.pointable(pointableID).direction;
+				if(direction === undefined)
+					return;
 				var dotProduct = Leap.vec3.dot(direction, gesture.normal);
 				if(dotProduct > 0)
 					clockwise = true;
