@@ -3,6 +3,7 @@
     <head>
         <title>HackingEDU Project</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//js.leapmotion.com/leap-0.6.4.js"></script>
 		<script src="assets/audiolib.js"></script>
 		<script src="tuna/tuna.js"></script>
 		<script src="MIDI.js/inc/jasmid/midifile.js"></script>
@@ -50,79 +51,44 @@
 	   				}
 	   				fetch.send();
 	   			}
-				player = MIDI.player;
+				player = MIDI.Player;
 				
-				
-				var mySample = "";
-				var tempo = 120,
-			    notesPerBeat = 4,
-			    tickCounter = 1,
-			    tick = 0,
-			    dev, sampler;
-				var dev, sampler;
-				loadRemote("piano_meral.wav", function(data) {
-					mySample = atob(btoa(data));
-					alert(mySample);
-					function audioCallback(buffer, channelCount){
-					    // Fill the buffer with the sampler output
-					    sampler.append(buffer, channelCount);
-					}
-
-					
-					    // Create an instance of the AudioDevice class
-					    dev = audioLib.AudioDevice(audioCallback /* callback for the buffer fills */, 2 /* channelCount */);
-						
-					    // Create an instance  of the Sampler class
-					    sampler = audioLib.Sampler(dev.sampleRate);
-					    // Load the sample to the sampler
-					    sampler.loadWav(mySample, true);
-						alert(sampler.samples.length);
-					    // Trigger the sample
-						sampler.addPreProcessing(function(){
-								//alert("hi")
-						        // Make tickCounter approach 1, and trigger sample when reached
-						        
-						    });
-					
-				});
 				function slowdown_player(factor) {
-					// MIDI.setEffects({
-// 						        type: "Delay",
-// 						        feedback: 0.45, // 0 to 1+
-// 						        delayTime: 150, // how many milliseconds should the wet signal be delayed?
-// 						        wetLevel: 0.25, // 0 to 1+
-// 						        dryLevel: 1, // 0 to 1+
-// 						        cutoff: 20, // cutoff frequency of the built in highpass-filter. 20 to 22050
-// 						        bypass: 0
-// 						    });
-
-					player.BPM=200;
+					MIDI.setEffects({
+						        type: "Delay",
+						        feedback: 0.45, // 0 to 1+
+						        delayTime: 150, // how many milliseconds should the wet signal be delayed? 
+						        wetLevel: 0.25, // 0 to 1+
+						        dryLevel: 1, // 0 to 1+
+						        cutoff: 20, // cutoff frequency of the built in highpass-filter. 20 to 22050
+						        bypass: 0
+						    });
 				}
-	   		// $(document).ready(function() {
-// 				MIDI.loadPlugin({
-// 					soundfontUrl: "assets/midi-js-soundfonts/FluidR3_GM/",
-// 					instruments: ["acoustic_grand_piano", "bagpipe"],
-// 					onprogress: function(state, progress) {
-// 						console.log(state, progress);
-// 					},
-//     				onsuccess: function() {
-// 						// var delay = 1; // play one note every quarter second
-// // 						var note = 50; // the MIDI note
-// // 						var velocity = 127; // how hard the note hits
-// // 									// play the note
-// // 						MIDI.setVolume(0, 127);
-// // 						MIDI.chordOn(0, [50, 55, 60], velocity, delay);
-// // 						MIDI.noteOff(0, note, delay + 0.75);
-// 						loadRemote("cathedral.mid", function(data){
-// 							 //alert(btoa(data).toString());
-// 							 player = MIDI.Player;
-// 							 player.timeWarp = 1;
-// 							player.loadFile('data:audio/mid;base64, '+btoa(data), player.start, function(){}, function(err){alert(JSON.stringify(err));})
-// 						});
-// 					}
-// 					});
-//
-// 	   		});
+	   		$(document).ready(function() {
+				MIDI.loadPlugin({
+					soundfontUrl: "assets/midi-js-soundfonts/FluidR3_GM/",
+					instruments: ["acoustic_grand_piano", "bagpipe"],
+					onprogress: function(state, progress) {
+						console.log(state, progress);
+					},
+    				onsuccess: function() {
+						// var delay = 1; // play one note every quarter second
+// 						var note = 50; // the MIDI note
+// 						var velocity = 127; // how hard the note hits
+// 									// play the note
+// 						MIDI.setVolume(0, 127);
+// 						MIDI.chordOn(0, [50, 55, 60], velocity, delay);
+// 						MIDI.noteOff(0, note, delay + 0.75);
+						loadRemote("cathedral.mid", function(data){
+							 //alert(btoa(data).toString()); 
+							 player = MIDI.Player;
+							 player.timeWarp = 1;
+							player.loadFile('data:audio/mid;base64, '+btoa(data), player.start, function(){}, function(err){alert(JSON.stringify(err));})
+						});
+					}
+					});
+
+	   		});	
 	   		</script>
     </body>
 </html>
