@@ -1,3 +1,9 @@
 [submodule "MIDI.js"]
 	path = MIDI.js
 	url = https://github.com/mudcube/MIDI.js.git
+[submodule "tuna"]
+	path = tuna
+	url = https://github.com/Theodeus/tuna.git
+[submodule "jasmid"]
+	path = jasmid
+	url = https://github.com/gasman/jasmid.git
