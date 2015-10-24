@@ -7,3 +7,6 @@
 [submodule "jasmid"]
 	path = jasmid
 	url = https://github.com/gasman/jasmid.git
+[submodule "Flocking"]
+	path = Flocking
+	url = https://github.com/colinbdclark/Flocking.git

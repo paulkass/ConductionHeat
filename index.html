@@ -3,7 +3,6 @@
     <head>
         <title>HackingEDU Project</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-		<script src="//js.leapmotion.com/leap-0.6.4.js"></script>
 		<script src="assets/audiolib.js"></script>
 		<script src="tuna/tuna.js"></script>
 		<script src="MIDI.js/inc/jasmid/midifile.js"></script>
@@ -33,6 +32,8 @@
        <p id="pause"></p>
 	   <button onClick="player.pause();">Pause</button> 
 	   <button onClick="slowdown_player(3);">Slowdown</button>
+	   <p id="data"></p>
+	   <p id="data_2"></p>
 	           <script>
 	  			function loadRemote(path, callback) {
 	   				var fetch = new XMLHttpRequest();
@@ -69,25 +70,62 @@
 	   		$(document).ready(function() {
 				MIDI.loadPlugin({
 					soundfontUrl: "assets/midi-js-soundfonts/FluidR3_GM/",
-					instruments: ["acoustic_grand_piano", "bagpipe"],
+					instrument: ["bagpipe"],
 					onprogress: function(state, progress) {
 						console.log(state, progress);
 					},
     				onsuccess: function() {
-						// var delay = 1; // play one note every quarter second
-// 						var note = 50; // the MIDI note
-// 						var velocity = 127; // how hard the note hits
-// 									// play the note
-// 						MIDI.setVolume(0, 127);
-// 						MIDI.chordOn(0, [50, 55, 60], velocity, delay);
-// 						MIDI.noteOff(0, note, delay + 0.75);
+						var delay = 1; // play one note every quarter second
+						var note = 50; // the MIDI note
+						var velocity = 127; // how hard the note hits
+									// play the note
+						MIDI.setVolume(0, 127);
+						MIDI.chordOn(0, [50, 55, 60], velocity, delay);
+						MIDI.noteOff(0, note, delay + 0.75);
 						loadRemote("cathedral.mid", function(data){
-							 //alert(btoa(data).toString()); 
+							 //alert(btoa(data).toString())
+							$("#data").text(JSON.stringify(MidiFile(data)));
 							 player = MIDI.Player;
 							 player.timeWarp = 1;
 							player.loadFile('data:audio/mid;base64, '+btoa(data), player.start, function(){}, function(err){alert(JSON.stringify(err));})
 						});
-					}
+						// loadRemote("cathedral.mid", function(data){
+// 							//alert(btoa(data).toString())
+// 							$("#data").text(JSON.stringify(MidiFile(data)));
+// 	 					   	var note_data = MidiFile(data);
+// 							var note_data_array  = {
+// 								data: []
+// 							};
+// 							for (var i=1; i<note_data.tracks.length; i++) {
+// 								var track = note_data.tracks[i];
+// 								note_data_array.data.push(track)
+// 							}
+// 							for (var i=0; i<note_data_array.data.length; i++) {
+// 								var track = note_data_array.data[i];
+// 								alert(JSON.stringify(track))
+// 								while (track.length!=0) {
+// 									alert("hi")
+// 									var command = track[0]
+// 									var t = 0
+// 									var eval_string = ""
+// 									if (command.subtype=="noteOn") {
+//
+// 										t = track[0].deltaTime
+// 										eval_string = "MIDI.noteOn("+command.channel+", "+command.noteNumber+", "+command.velocity+", 0)";
+// 									} else if (command.subtype=="noteOff") {
+// 										t = track[0].deltaTime
+// 										eval_string = "MIDI.noteOff("+command.channel+", "+command.noteNumber+", 0)";
+// 									}
+// 									setTimeout(function() {
+// 										eval(eval_string)
+// 										delete track[0]
+// 									}, t);
+// 								}
+// 								alert("hi")
+// 							}
+// 							$("#data_2").text(JSON.stringify(note_data_array));
+// 					  	});
+						}
 					});
 
 	   		});	
