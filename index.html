@@ -3,6 +3,7 @@
     <head>
         <title>HackingEDU Project</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//js.leapmotion.com/leap-0.6.4.js"></script>
 		<script src="assets/audiolib.js"></script>
 		<script src="tuna/tuna.js"></script>
 		<script src="MIDI.js/inc/jasmid/midifile.js"></script>
@@ -28,7 +29,8 @@
 		<script src="leapinterp.js" type="text/javascript"></script>
     </head>
     <body>
-       <p id="hand"></p>
+       <p id="first"></p>
+       <p id="second"></p>
        <p id="pause"></p>
 	   <button onClick="player.pause();">Pause</button> 
 	   <button onClick="slowdown_player(3);">Slowdown</button>
@@ -79,6 +81,7 @@
 						var note = 50; // the MIDI note
 						var velocity = 127; // how hard the note hits
 									// play the note
+						MIDI.programChange(0,109);
 						MIDI.setVolume(0, 127);
 						MIDI.chordOn(0, [50, 55, 60], velocity, delay);
 						MIDI.noteOff(0, note, delay + 0.75);
