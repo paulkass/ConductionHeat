@@ -38,17 +38,18 @@
  	   	<div class="text-center">
  	   		<button id="get_started" type="button" class="btn btn-primary btn-lg active">This sound is obnoxious! Tell me what's going on?</button>
     	</div>
-		<div id="desc">
-				
+		<div id="desc" class="">
+			Welcome to Conduction Heat! This is a conduction app that allows Leap Motion users to practice conducting.
 		</div>
 		<div id="info" class="table">
-       	 	<p id="first"></p>
-       		<p id="second"></p>
-       		<p id="pause"></p>
+       	 	<p id="first" class="lead"></p>
+       		<p id="second" class="lead"></p>
+       		<p id="pause" class="lead"></p>
    		</div>
 	   <div id="canvas"></div>
 	   <p id="data"></p>
 	   <p id="data_2"></p>
+	   
 	   
 	   <script>
 	   var env;
@@ -74,6 +75,7 @@
 				}, function() {
 					$(this).removeClass("btn-success");
 				});
+			$("#info").width(WIDTH*0.1)
 	   	});
 	   
 // CODE AFTER THIS POINT MIGHT BE USED LATER

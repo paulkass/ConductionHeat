@@ -119,6 +119,7 @@ function clearCurrentSynths(channel) {
 
 var start = Date.now();
 var time = 0;
+var loop_enabled = true;
 	
 var tick_count = new Array(2);
 tick_count[0]=1;
@@ -191,7 +192,11 @@ for (i=0; i<tick_count.length; i++) {
 	}
    	setTimeout(timer_instance, (increment - diff));
 	if (channels[0].length==0 && channels[1].length==0) {
-		reload(0)
+		setTimeout(function() {
+			if (loop_enabled) {
+				reload(0)
+			}
+		}, 10000);
 	}
 }
 
