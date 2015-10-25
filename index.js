@@ -39,10 +39,10 @@ function playNextNote(chan_index) {
 	var synth = returnSynthesizer(id)
 	//alert(JSON.stringify(channel_counts[0]))
 	synth.set(id+".freq", 440*Math.pow(2, channels[chan_index][channel_counts[chan_index]].note/12))
-	if (!(channel_options[chan_index].length==0)) {
-		alert(channel_options[chan_index].mul)
-		synth.set(id+".mul", channel_options[chan_index].mul)
-	}
+	// if (!(channel_options[chan_index].length==0)) {
+// 		alert(channel_options[chan_index].mul)
+// 		synth.set(id+".mul", channel_options[chan_index].mul)
+// 	}
 	env.head(synth);
 	setTimeout(function() {
 		channel_counts[chan_index]++;
@@ -56,9 +56,28 @@ function playNextNote(chan_index) {
 	}, 1000.0/(bpm/60.0)*channels[chan_index][channel_counts[chan_index]].duration);
 }
 
+ar start = new Date().getTime(),
+    time = 0,
+    elapsed = '0.0';
+
+function instance()
+{
+    time += 100;
+
+    elapsed = Math.floor(time / 100) / 10;
+    if(Math.round(elapsed) == elapsed) { elapsed += '.0'; }
+
+    document.title = elapsed;
+
+    var diff = (new Date().getTime() - start) - time;
+    window.setTimeout(instance, (100 - diff));
+}
+
+setTimeout(instance, 100);
+
 // playNextNote(0);
 // playNextNote(1);
 
-setTimeout(function() {
-	changeVolume(0, 50);
-}, 1000);
+// setTimeout(function() {
+// 	changeVolume(0, 50);
+// }, 1000);
