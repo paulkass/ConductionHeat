@@ -26,17 +26,20 @@
 		<script src="MIDI.js/js/midi/plugin.webmidi.js" type="text/javascript"></script>
 		<script src="index.js"></script>
 		<script src="leapinterp.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.min.css"/>
+		<style>
+		</style>
     </head>
     <body>
        <p id="hand"></p>
        <p id="pause"></p>
-	   <h1>Yolo</h1>
-	   <button onClick="replay();">Pause</button> 
-	   <button onClick="slowdown_player(3);">Slowdown</button>
-	   <button onClick="change_volume(volume)">Louder</button>
+	   <canvas id="main_canvas"></canvas>
+	   <button id="get_started" type="button" class="btn btn-primary btn-lg active text-center">This sound is obnoxious! Tell me what's going on?</button>
 	   <p id="data"></p>
 	   <p id="data_2"></p>
-	           <script>
+	   
+	   <script>
 	   var env;
 	   
 	   window.onload = function() {
@@ -44,6 +47,19 @@
 		   env.start();
 		   start_timer();
 	   }
+	   
+	   $(document).ready(function(){
+	   		$("#get_started")
+		   		.click(function() {
+					end();
+					setTimeout(function() {
+	   					alert("Welcome to Cool Beans!") // should be replaced with a nice message
+					}, 100);
+	   			})
+				.mouseover(function() {
+					$(this).addClass("btn-success");
+				});
+	   	});
 	   
 // CODE AFTER THIS POINT MIGHT BE USED LATER
 // =========================================  	   
