@@ -37,14 +37,15 @@
 		<h1 id ="header" class="text-center ">Welcome to Conduction Heat!</h1>
  	   	<div class="text-center">
  	   		<button id="get_started" type="button" class="btn btn-primary btn-lg active">This sound is obnoxious! Tell me what's going on?</button>
+ 	   		<button id="loop" type="button" onclick="loop_enabled = !loop_enabled;" class="btn btn-primary btn-lg active">Toggle Loop</button>
     	</div>
 		<div id="desc" class="">
 			Welcome to Conduction Heat! This is a conduction app that allows Leap Motion users to practice conducting.
 		</div>
-		<div id="info" class="table">
-       	 	<p id="first" class="lead"></p>
-       		<p id="second" class="lead"></p>
-       		<p id="pause" class="lead"></p>
+    	<div id="info" class="row">
+       	 	<div class=".col-md-4"><p id="first"></p></div>
+       	 	<div class=".col-md-4"><p id="second"></p></div>
+       	 	<div class=".col-md-4"><p id="pause"></p></div>
    		</div>
 	   <div id="canvas"></div>
 	   <p id="data"></p>

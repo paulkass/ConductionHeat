@@ -26,13 +26,13 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 		changeVolume(type, volume[type]);
 		if(hand.grabStrength > 0.8)
 		{
-			pause.innerHTML = 'Held';
+			document.getElementById("pause").innerHTML = 'Held';
 			startHold();
 		}
 		else if (hand.grabStrength < 0.2)
 		{
 			stopHold();
-			pause.innerHTML = 'Normal';
+			document.getElementById("pause").innerHTML = 'Normal';
 		}
 	}
 	if(frame.valid && frame.gestures.length > 0)
@@ -55,8 +55,8 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 			}
     	});
 	}
-	first.innerHTML = 'Volume: ' + processFloat(volume[0]) + ' ' + processFloat(volume[1]);
-	second.innerHTML = 'Tempo: ' + tempo + ' ';
+	document.getElementById("first").innerHTML = 'Volume: ' + processFloat(volume[0]) + ' ' + processFloat(volume[1]);
+	document.getElementById("second").innerHTML = 'Tempo: ' + tempo + ' ';
 });
 
 function processFloat(n) {
