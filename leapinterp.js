@@ -42,7 +42,7 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 				if(dotProduct > 0)
 					clockwise = true;
 				var circleProgress = clockwise ? gesture.progress : -gesture.progress;
-				tempo *= Math.pow(Math.pow(2,1/64),circleProgress);
+				tempo *= Math.pow(Math.pow(2,1/256),circleProgress);
 				tempo = Math.round(tempo);
 				changeTempo(tempo);
 			}
