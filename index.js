@@ -29,6 +29,7 @@ function changeVolume(chan, factor) {
 }
 
 var bpm = 120;
+window.on_hold = false;
 var channels = [[],[]];
 channels[0]=[[{duration: 1, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -9}], [{duration: 1, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -7}], [{duration: 2, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}]]
 channels[1]=[[{duration: 8, note: -21}, {duration: null, note: -14}], [{duration: 4, note:-22}, {duration: null, note: -14}], [{duration: 4, note: -21}, {duration: null, note: -14}]]
@@ -68,6 +69,50 @@ function changeVolume(channel, mul) {
 	volume_change_que.push([channel, mul])
 }
 
+function startHold() {
+	if (!window.on_hold) {
+		window.on_hold = true;
+		console.log("on hold is true")
+	}
+}
+
+function stopHold() {
+	if (window.on_hold) {
+		for (i=0; i<channels.length; i++) {
+			clearCurrentSynths(i)
+		}
+		time=0
+		start = Date.now();
+		// for (i=0; i<tick_count.length; i++) {
+// 			tick_count[i]=1;
+// 		}
+		window.on_hold = false;
+	}
+}
+
+function end() {
+	if (!window.on_hold) {
+		window.on_hold = true;
+		for (i=0; i<channels.length; i++) {
+			clearCurrentSynths(i)
+		}
+		
+	}
+}
+
+function endEnd() {
+	if (window.on_hold) {
+		window.on_hold = false;
+	}
+}
+
+function clearCurrentSynths(channel) {
+	for (l=0; l<current_synths[i].length; l++) {
+		current_synths[channel][l][0].set(current_synths[channel][l][1]+".mul", 0);
+	}
+	clearArray(current_synths[channel])
+}
+
 var start = Date.now();
 var time = 0;
 	
@@ -95,29 +140,28 @@ function timer_instance()
 //     if(Math.round(elapsed) == elapsed) { elapsed += '.0'; }
 
 for (i=0; i<tick_count.length; i++) {
+	if (!window.on_hold) {
+	console.log("on hold is false")
 	if (tick_count[i]!=1) {
 		tick_count[i]--;
 	} else {
 		if (!(current_synths[i]==undefined)) {
-			for (l=0; l<current_synths[i].length; l++) {
-				current_synths[i][l][0].set(current_synths[i][l][1]+".mul", 0);
-			}
-			
-			clearArray(current_synths[i]);
-			console.log("Array lenght is "+current_synths[i].length)
+			clearCurrentSynths(i)
+			console.log("Array length is "+current_synths[i].length)
 		}
 		if (channels[i].length!=0) {
-		var nextNoteObject = channels[i].shift();
-		tick_count[i]=nextNoteObject[0].duration;
-		for (l=0; l<nextNoteObject.length; l++) {
+			var nextNoteObject = channels[i].shift();
+			tick_count[i]=nextNoteObject[0].duration;
+			for (l=0; l<nextNoteObject.length; l++) {
 			
 		//alert(tick_count[i])
-			var synthArr = playNote(i, nextNoteObject[l]);
+				var synthArr = playNote(i, nextNoteObject[l]);
 			
 		//alert(synthArr[0].get(synthArr[1]+".freq"))
-			env.head(synthArr[0])
+				env.head(synthArr[0])
 		
-			current_synths[i].push([synthArr[0], synthArr[1]])
+				current_synths[i].push([synthArr[0], synthArr[1]])
+			}
 		}
 	}
 	}
