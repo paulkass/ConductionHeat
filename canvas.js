@@ -1,4 +1,4 @@
-var HEIGHT = $(document).height()*0.7, WIDTH = $(document).width();
+var HEIGHT = $(document).height()*0.65, WIDTH = $(document).width();
 $("#canvas").height(HEIGHT).width(WIDTH);
 var VIEW_ANGLE = 45,
   ASPECT = WIDTH / HEIGHT,
