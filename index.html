@@ -3,7 +3,7 @@
     <head>
         <title>HackingEDU Project</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-		<script src="https://js.leapmotion.com/leap-0.6.4.min.js"></script>
+		<script src="http://js.leapmotion.com/leap-0.6.4.min.js"></script>
 		<script src="assets/audiolib.js"></script>
 		<script src="Flocking/dist/flocking-all.js"></script>
 		<script src="three.js/build/three.min.js"></script>
@@ -30,15 +30,23 @@
 		<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.min.css"/>
 		<style>
-		#canvas {border-radius:25;}
+		body {background-color: rgb(54, 117, 136);}
 		</style>
     </head>
     <body>
-       <p id="first"></p>
-       <p id="second"></p>
-       <p id="pause"></p>
+		<h1 id ="header" class="text-center ">Welcome to Conduction Heat!</h1>
+ 	   	<div class="text-center">
+ 	   		<button id="get_started" type="button" class="btn btn-primary btn-lg active">This sound is obnoxious! Tell me what's going on?</button>
+    	</div>
+		<div id="desc">
+				
+		</div>
+		<div id="info" class="table">
+       	 	<p id="first"></p>
+       		<p id="second"></p>
+       		<p id="pause"></p>
+   		</div>
 	   <div id="canvas"></div>
-	   <button id="get_started" type="button" class="btn btn-primary btn-lg active text-center">This sound is obnoxious! Tell me what's going on?</button>
 	   <p id="data"></p>
 	   <p id="data_2"></p>
 	   
@@ -48,6 +56,8 @@
 	   window.onload = function() {
 		   env = flock.init();
 		   env.start();
+		   channels[0] = fillArrWithMusic(0, 0)
+		   channels[1] = fillArrWithMusic(1, 0)
 		   start_timer();
 	   }
 	   
