@@ -34,46 +34,72 @@ channel_options[0]=channel_options[1]={};
 var channel_counts = [];
 channel_counts[0]=channel_counts[1]=0;
 
-function playNextNote(chan_index) {
+function playNote(chan_index, input_note) {
+	//alert("hi")
 	var id = "channel_"+channel_counts[chan_index];
 	var synth = returnSynthesizer(id)
 	//alert(JSON.stringify(channel_counts[0]))
-	synth.set(id+".freq", 440*Math.pow(2, channels[chan_index][channel_counts[chan_index]].note/12))
+	synth.set(id+".freq", 440*Math.pow(2, input_note.note/12))
 	// if (!(channel_options[chan_index].length==0)) {
 // 		alert(channel_options[chan_index].mul)
 // 		synth.set(id+".mul", channel_options[chan_index].mul)
 // 	}
-	env.head(synth);
-	setTimeout(function() {
-		channel_counts[chan_index]++;
-		synth.set(id+".mul", 0);
-
-		if (channel_counts[chan_index]>=channels[chan_index].length) {
-			alert("Done!");
-		} else {
-			playNextNote(chan_index);
-		}
-	}, 1000.0/(bpm/60.0)*channels[chan_index][channel_counts[chan_index]].duration);
+	//env.head(synth);
+	var return_arr = [synth, id]
+	return return_arr;
 }
 
-ar start = new Date().getTime(),
-    time = 0,
-    elapsed = '0.0';
+var start = Date.now();
+var time = 0;
+	
+	var tick_count = new Array(2);
+	tick_count[0]=tick_count[1]=1;
+	
+	var current_synths = new Array(2);
+var increment = 1000.0/(bpm/60.0)
+	
+function start_timer() {
+	setTimeout(function() {
+		start = Date.now();
+		timer_instance();
+	}, increment);
+}
 
-function instance()
+function timer_instance()
 {
-    time += 100;
+	
+    time += increment;
 
-    elapsed = Math.floor(time / 100) / 10;
-    if(Math.round(elapsed) == elapsed) { elapsed += '.0'; }
+    // elapsed = Math.floor(time / 100) / 10;
+//     if(Math.round(elapsed) == elapsed) { elapsed += '.0'; }
 
-    document.title = elapsed;
+for (i=0; i<tick_count.length; i++) {
+	if (tick_count[i]!=1) {
+		tick_count[i]--;
+	} else {
+		if (!(current_synths[i]==undefined)) {
+			current_synths[i][0].set(current_synths[i][1]+".mul", 0);
+		}
+		if (channels[i].length!=0) {
+		var nextNoteObject = channels[i].shift();
+		tick_count[i]=nextNoteObject.duration;
+		//alert(tick_count[i])
+		var synthArr = playNote(i, nextNoteObject);
+		//alert(synthArr[0].get(synthArr[1]+".freq"))
+		env.head(synthArr[0])
+		
+		current_synths[i]=[synthArr[0], synthArr[1]]
+	}
+	}
+}
 
     var diff = (new Date().getTime() - start) - time;
-    window.setTimeout(instance, (100 - diff));
+	console.log(tick_count[0]+" "+tick_count[1])
+	//alert(diff);
+   	setTimeout(timer_instance, (increment - diff));
 }
 
-setTimeout(instance, 100);
+//setTimeout(timer_instance, 100);
 
 // playNextNote(0);
 // playNextNote(1);

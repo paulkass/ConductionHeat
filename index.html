@@ -34,6 +34,7 @@
     <body>
        <p id="hand"></p>
        <p id="pause"></p>
+	   <h1>Yolo</h1>
 	   <button onClick="replay();">Pause</button> 
 	   <button onClick="slowdown_player(3);">Slowdown</button>
 	   <button onClick="change_volume(volume)">Louder</button>
@@ -41,12 +42,14 @@
 	   <p id="data_2"></p>
 	           <script>
 	   // var volume = 1.05;
-	   var env = flock.init();
-	   env.start();
+	   var env;
 	   
 	   window.onload = function() {
-		   playNextNote(0);
-		   playNextNote(1);
+		   env = flock.init();
+		   env.start();
+		// var synth = returnSynthesizer("hi")
+// 		env.head(synth)
+		   start_timer();
 	   }
 // 	   var synth = flock.synth({
 // 		   synthDef: {
