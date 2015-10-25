@@ -31,6 +31,7 @@
 		<link rel="stylesheet" href="bootstrap/dist/css/bootstrap-theme.min.css"/>
 		<style>
 		body {background-color: rgb(54, 117, 136);}
+		desc {display: float;}
 		</style>
     </head>
     <body>
@@ -39,8 +40,9 @@
  	   		<button id="get_started" type="button" class="btn btn-primary btn-lg active">This sound is obnoxious! Tell me what's going on?</button>
  	   		<button id="loop" type="button" onclick="loop_enabled = !loop_enabled;" class="btn btn-primary btn-lg active">Toggle Loop</button>
     	</div>
-		<div id="desc" class="">
-			Welcome to Conduction Heat! This is a conduction app that allows Leap Motion users to practice conducting.
+		<div class="text-center" id="controls"> 
+			<button id="reset" class="btn btn-primary btn-lg active">Reset to beginning.</button>
+			<button id="startup" class="btn btn-primary btn-lg active">Play from start.</button>
 		</div>
     	<div id="info" class="row">
        	 	<div class=".col-md-4"><p id="first"></p></div>
@@ -54,6 +56,7 @@
 	   
 	   <script>
 	   var env;
+	   var was_stopped = false;
 	   
 	   window.onload = function() {
 		   env = flock.init();
@@ -68,7 +71,7 @@
 		   		.click(function() {
 					end();
 					setTimeout(function() {
-	   					alert("Welcome to Cool Beans!") // should be replaced with a nice message
+	   					alert("Welcome to Conduction Heat! This is a conduction app that allows Leap Motion users to practice conducting.") // should be replaced with a nice message
 					}, 100);
 	   			})
 				.hover(function() {
@@ -77,6 +80,32 @@
 					$(this).removeClass("btn-success");
 				});
 			$("#info").width(WIDTH*0.1)
+			$("#reset").click(function() {
+				window.on_hold = true;
+				end();
+				clearArray(channels[1])
+				clearArray(channels[0])
+				was_stopped = true;
+				window.on_hold = false;
+				loop_enabled = false;
+				tick_count[0]=1;
+				tick_count[1]=1;
+			})
+			.hover(function() {
+				$(this).addClass("btn-success");
+			}, function() {
+				$(this).removeClass("btn-success");
+			});
+			$("#startup").click(function() {
+		   	 channels[0] = fillArrWithMusic(0, 0)
+		   	 channels[1] = fillArrWithMusic(1, 0)
+			})
+			.hover(function() {
+				$(this).addClass("btn-success");
+			}, function() {
+				$(this).removeClass("btn-success");
+			});
+			;
 	   	});
 	   
 // CODE AFTER THIS POINT MIGHT BE USED LATER
