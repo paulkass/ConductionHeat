@@ -22,7 +22,7 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 			pause.innerHTML = 'Paused';
 			startHold();
 		}
-		else if (!player.playing && hand.grabStrength < 0.2)
+		else if (hand.grabStrength < 0.2)
 		{
 			stopHold();
 			pause.innerHTML = '';
