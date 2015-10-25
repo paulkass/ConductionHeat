@@ -16,3 +16,6 @@
 [submodule "timer-stopwatch-1"]
 	path = timer-stopwatch-1
 	url = https://github.com/paulkass/timer-stopwatch-1.git
+[submodule "three.js"]
+	path = three.js
+	url = https://github.com/mrdoob/three.js.git
