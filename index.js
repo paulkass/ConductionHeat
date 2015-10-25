@@ -25,8 +25,8 @@ function changeVolume(chan, factor) {
 
 var bpm = 120;
 var channels = [[],[]];
-channels[0]=[{duration: 1, note: -5}, {duration: 1, note: -7}, {duration: 1, note: -9}, {duration: 1, note: -7}, {duration: 1, note: -5}, {duration: 1, note: -5}, {duration: 2, note: -5}, {duration: 1, note: -7}, {duration: 1, note: -7}, {duration: 2, note: -7}, {duration: 1, note: -5}, {duration: 1, note: -5}, {duration: 2, note: -5}]
-channels[1]=[{duration: 8, note: -21}, {duration: 4, note:-22}, {duration: 4, note: -21}]
+channels[0]=[[{duration: 1, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -9}], [{duration: 1, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -7}], [{duration: 2, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}]]
+channels[1]=[[{duration: 8, note: -21}, {duration: null, note: -14}], [{duration: 4, note:-22}, {duration: null, note: -14}], [{duration: 4, note: -21}, {duration: null, note: -14}]]
 
 var channel_options = new Array(2);
 channel_options[0]=channel_options[1]={};
@@ -55,7 +55,7 @@ var time = 0;
 	var tick_count = new Array(2);
 	tick_count[0]=tick_count[1]=1;
 	
-	var current_synths = new Array(2);
+	var current_synths = [[],[]];
 var increment = 1000.0/(bpm/60.0)
 	
 function start_timer() {
@@ -78,17 +78,23 @@ for (i=0; i<tick_count.length; i++) {
 		tick_count[i]--;
 	} else {
 		if (!(current_synths[i]==undefined)) {
-			current_synths[i][0].set(current_synths[i][1]+".mul", 0);
+			for (l=0; l<current_synths[i].length; l++) {
+				current_synths[i][l][0].set(current_synths[i][l][1]+".mul", 0);
+			}
+			//current_synths[i] = [];
 		}
 		if (channels[i].length!=0) {
 		var nextNoteObject = channels[i].shift();
-		tick_count[i]=nextNoteObject.duration;
+		tick_count[i]=nextNoteObject[0].duration;
+		for (l=0; l<nextNoteObject.length; l++) {
+			
 		//alert(tick_count[i])
-		var synthArr = playNote(i, nextNoteObject);
+			var synthArr = playNote(i, nextNoteObject[l]);
 		//alert(synthArr[0].get(synthArr[1]+".freq"))
-		env.head(synthArr[0])
+			env.head(synthArr[0])
 		
-		current_synths[i]=[synthArr[0], synthArr[1]]
+			current_synths[i].push([synthArr[0], synthArr[1]])
+		}
 	}
 	}
 }
