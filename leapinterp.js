@@ -2,16 +2,23 @@ var tempo = bpm;
 var volume = [1,1];
 var volumebuffer = [0,0];
 var posbuffer;
+var enter = true;
 var controller = Leap.loop({enableGestures: true}, function (frame) {
 	if(frame.hands.length > 0)
 	{
 		var hand = frame.hands[0];
+		if(hand.palmPosition[2] > 0)
+		{
+			enter = true;
+			return;
+		}
 		var type = hand.type == "right" ? 1 : 0;
 		var position = hand.palmPosition[1];
-		if(controller.frame(1).hands.length == 0)
+		if(controller.frame(1).hands.length == 0 || enter)
 		{
 			volumebuffer[type] = volume[type];
 			posbuffer = position;
+			enter = false;
 		}
 		volume[type] = 0.01*(position -posbuffer) + volumebuffer[type];
 		if(volume[type] < 0)
