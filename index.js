@@ -49,14 +49,19 @@ function playNote(chan_index, input_note) {
 	return return_arr;
 }
 
+function changeTempo(rate) {
+	tempo_que.push(rate);
+}
+
 var start = Date.now();
 var time = 0;
 	
-	var tick_count = new Array(2);
-	tick_count[0]=tick_count[1]=1;
+var tick_count = new Array(2);
+tick_count[0]=tick_count[1]=1;
 	
-	var current_synths = [[],[]];
-var increment = 1000.0/(bpm/60.0)
+var current_synths = [[],[]];
+var increment = getIncrement();
+var tempo_que = [];
 	
 function start_timer() {
 	setTimeout(function() {
@@ -81,7 +86,9 @@ for (i=0; i<tick_count.length; i++) {
 			for (l=0; l<current_synths[i].length; l++) {
 				current_synths[i][l][0].set(current_synths[i][l][1]+".mul", 0);
 			}
-			//current_synths[i] = [];
+			
+			clearArray(current_synths[i]);
+			console.log("Array lenght is "+current_synths[i].length)
 		}
 		if (channels[i].length!=0) {
 		var nextNoteObject = channels[i].shift();
@@ -102,9 +109,20 @@ for (i=0; i<tick_count.length; i++) {
     var diff = (new Date().getTime() - start) - time;
 	console.log(tick_count[0]+" "+tick_count[1])
 	//alert(diff);
+	if (tempo_que.length!=0) {
+		bpm = tempo_que.pop();
+		increment = getIncrement();
+	}
    	setTimeout(timer_instance, (increment - diff));
 }
 
+function getIncrement() {
+	return 1000.0/(bpm/60.0)
+}
+
+function clearArray(arr) {
+	arr.length=0;
+}
 //setTimeout(timer_instance, 100);
 
 // playNextNote(0);
