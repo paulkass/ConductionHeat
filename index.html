@@ -43,6 +43,7 @@
 		<div class="text-center" id="controls"> 
 			<button id="reset" class="btn btn-primary btn-lg active">Reset to beginning.</button>
 			<button id="startup" class="btn btn-primary btn-lg active">Play from start.</button>
+			<button id="reset_params" class="btn btn-primary btn-lg active">Reset Parameters.</button>
 		</div>
     	<div id="info" class="row text-center">
        	 	<div class=".col-md-4"><p id="first"></p></div>
@@ -99,6 +100,16 @@
 			$("#startup").click(function() {
 		   	 channels[0] = fillArrWithMusic(0, 0)
 		   	 channels[1] = fillArrWithMusic(1, 0)
+			})
+			.hover(function() {
+				$(this).addClass("btn-success");
+			}, function() {
+				$(this).removeClass("btn-success");
+			});
+			$("#reset_params").click(function() {
+				changeVolume(0, 1);
+				changeVolume(1,1);
+				changeTempo(120);
 			})
 			.hover(function() {
 				$(this).addClass("btn-success");
