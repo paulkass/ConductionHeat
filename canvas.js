@@ -1,4 +1,5 @@
-var HEIGHT = 600, WIDTH = 600;
+var HEIGHT = $(document).height()*0.9, WIDTH = $(document).width();
+$("#canvas").height(HEIGHT).width(WIDTH);
 var VIEW_ANGLE = 45,
   ASPECT = WIDTH / HEIGHT,
   NEAR = 0.1,
@@ -27,17 +28,19 @@ scene.add(camera);
 renderer.setSize(WIDTH, HEIGHT);
 $canvas.append(renderer.domElement);
 // attach the render-supplied DOM element
-var geometry = new THREE.SphereGeometry( 1, 8, 8 );
+var geometry = new THREE.BoxGeometry( 8, 1, 2 );
 var material = new THREE.MeshPhongMaterial( { color: 0x80ff80 } );
 var solid0 = new THREE.Mesh( geometry, material );
 var solid1 = new THREE.Mesh( geometry, material );
 scene.add( solid0, solid1 );
-solid0.rotation.x = 0.5;
-solid0.rotation.y = 0.5;
-solid1.rotation.x = 0.5;
-solid1.rotation.y = 0.5;
-solid0.position.x = -1.5;
-solid1.position.x = 1.5;
+solid0.rotation.y=0.5;
+solid1.rotation.y=-0.5;
+// solid0.rotation.x = 0.5;
+// solid0.rotation.y = 0.5;
+// solid1.rotation.x = 0.5;
+// solid1.rotation.y = 0.5;
+solid0.position.x = -4;
+solid1.position.x = 4;
 
 
 camera.position.z = 10;
