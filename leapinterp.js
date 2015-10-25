@@ -20,10 +20,11 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 		if(hand.grabStrength > 0.8)
 		{
 			pause.innerHTML = 'Paused';
-			replay();
+			startHold();
 		}
 		else if (!player.playing && hand.grabStrength < 0.2)
 		{
+			stopHold();
 			pause.innerHTML = '';
 		}
 	}
