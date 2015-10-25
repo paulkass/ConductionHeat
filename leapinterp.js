@@ -19,13 +19,13 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 		changeVolume(type, volume[type]);
 		if(hand.grabStrength > 0.8)
 		{
-			pause.innerHTML = 'Paused';
+			pause.innerHTML = 'Held';
 			startHold();
 		}
 		else if (hand.grabStrength < 0.2)
 		{
 			stopHold();
-			pause.innerHTML = '';
+			pause.innerHTML = 'Normal';
 		}
 	}
 	if(frame.valid && frame.gestures.length > 0)
