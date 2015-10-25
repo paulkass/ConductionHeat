@@ -48,6 +48,10 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 			}
     	});
 	}
-	first.innerHTML = 'Volume: ' + volume[0] + ' ' + volume[1];
+	first.innerHTML = 'Volume: ' + processFloat(volume[0]) + ' ' + processFloat(volume[1]);
 	second.innerHTML = 'Tempo: ' + tempo + ' ';
 });
+
+function processFloat(n) {
+	return Math.round(n*1000)/1000;
+}
