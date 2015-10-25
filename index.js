@@ -31,9 +31,13 @@ function changeVolume(chan, factor) {
 var bpm = 120;
 window.on_hold = false;
 var channels = [[],[]];
-channels[0]=[[{duration: 1, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -9}], [{duration: 1, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -7}], [{duration: 2, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}]]
-channels[1]=[[{duration: 8, note: -21}, {duration: null, note: -14}], [{duration: 4, note:-22}, {duration: null, note: -14}], [{duration: 4, note: -21}, {duration: null, note: -14}]]
 
+function fillArrWithMusic(channel, music_no) {
+	var music_samples = [[[],[]]]
+	music_samples[0][0] = [[{duration: 1, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -9}], [{duration: 1, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}], [{duration: 1, note: -7}], [{duration: 1, note: -7}], [{duration: 2, note: -7}], [{duration: 1, note: -5}], [{duration: 1, note: -5}], [{duration: 2, note: -5}]]
+	music_samples[0][1] = [[{duration: 8, note: -21}, {duration: null, note: -14}], [{duration: 4, note:-22}, {duration: null, note: -14}], [{duration: 4, note: -21}, {duration: null, note: -14}]]
+	return music_samples[music_no][channel]
+}
 var channel_options = new Array(2);
 channel_options[0]={};
 channel_options[1]={};
@@ -117,7 +121,8 @@ var start = Date.now();
 var time = 0;
 	
 var tick_count = new Array(2);
-tick_count[0]=tick_count[1]=1;
+tick_count[0]=1;
+tick_count[1]=1;
 	
 var current_synths = [[],[]];
 var increment = getIncrement();
@@ -185,6 +190,14 @@ for (i=0; i<tick_count.length; i++) {
 		clearArray(volume_change_que);
 	}
    	setTimeout(timer_instance, (increment - diff));
+	if (channels[0].length==0 && channels[1].length==0) {
+		reload(0)
+	}
+}
+
+function reload(music_no) {
+		   channels[0] = fillArrWithMusic(0, music_no)
+		   channels[1] = fillArrWithMusic(1, music_no)
 }
 
 function getIncrement() {
