@@ -58,8 +58,10 @@
 	   					alert("Welcome to Cool Beans!") // should be replaced with a nice message
 					}, 100);
 	   			})
-				.mouseover(function() {
+				.hover(function() {
 					$(this).addClass("btn-success");
+				}, function() {
+					$(this).removeClass("btn-success");
 				});
 	   	});
 	   
