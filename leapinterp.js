@@ -1,6 +1,6 @@
-var tempo = 96;
-var volume = [128, 128];
-var volumebuffer = [];
+var tempo = bpm;
+var volume = [1,1];
+var volumebuffer = [0,0];
 var posbuffer;
 var controller = Leap.loop({enableGestures: true}, function (frame) {
 	if(frame.hands.length > 0)
@@ -13,16 +13,17 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 			volumebuffer[type] = volume[type];
 			posbuffer = position;
 		}
-		volume[type] = 0.1*(position -posbuffer) + volumebuffer[type];
-		volume[type] = Math.round(volume[type]);
+		volume[type] = 0.01*(position -posbuffer) + volumebuffer[type];
+		if(volume[type] < 0)
+			volume[type] = 0;
+		changeVolume(type, volume[type]);
 		if(hand.grabStrength > 0.8)
 		{
 			pause.innerHTML = 'Paused';
-			player.pause();
+			replay();
 		}
 		else if (!player.playing && hand.grabStrength < 0.2)
 		{
-			player.resume();
 			pause.innerHTML = '';
 		}
 	}
@@ -42,9 +43,10 @@ var controller = Leap.loop({enableGestures: true}, function (frame) {
 				var circleProgress = clockwise ? gesture.progress : -gesture.progress;
 				tempo *= Math.pow(Math.pow(2,1/64),circleProgress);
 				tempo = Math.round(tempo);
+				changeTempo(tempo);
 			}
     	});
 	}
-	first.innerHTML = 'Volume: ' + volume + ' ';
+	first.innerHTML = 'Volume: ' + volume[0] + ' ' + volume[1];
 	second.innerHTML = 'Tempo: ' + tempo + ' ';
 });
